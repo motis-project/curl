@@ -124,11 +124,11 @@ endif()
 option(CURL_WERROR "Turn compiler warnings into errors" OFF)
 option(PICKY_COMPILER "Enable picky compiler options" ON)
 option(BUILD_CURL_EXE "Build curl executable" ON)
-option(BUILD_SHARED_LIBS "Build shared libraries" ON)
-option(BUILD_STATIC_LIBS "Build static libraries" OFF)
-option(BUILD_STATIC_CURL "Build curl executable with static libcurl" OFF)
+option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
+option(BUILD_STATIC_LIBS "Build static libraries" ON)
+option(BUILD_STATIC_CURL "Build curl executable with static libcurl" ON)
 option(ENABLE_ARES "Enable c-ares support" OFF)
-option(CURL_DISABLE_INSTALL "Disable installation targets" OFF)
+option(CURL_DISABLE_INSTALL "Disable installation targets" ON)
 
 if(WIN32)
   option(CURL_STATIC_CRT "Build libcurl with static CRT on Windows (/MT)" OFF)
@@ -242,7 +242,7 @@ endif()
 
 include(CurlSymbolHiding)
 
-option(CURL_ENABLE_EXPORT_TARGET "Enable CMake export target" ON)
+option(CURL_ENABLE_EXPORT_TARGET "Enable CMake export target" OFF)
 mark_as_advanced(CURL_ENABLE_EXPORT_TARGET)
 
 option(CURL_DISABLE_ALTSVC "Disable alt-svc support" OFF)
@@ -331,7 +331,7 @@ option(CURL_DISABLE_VERBOSE_STRINGS "Disable verbose strings" OFF)
 mark_as_advanced(CURL_DISABLE_VERBOSE_STRINGS)
 
 # Corresponds to HTTP_ONLY in lib/curl_setup.h
-option(HTTP_ONLY "Disable all protocols except HTTP (This overrides all CURL_DISABLE_* options)" OFF)
+option(HTTP_ONLY "Disable all protocols except HTTP (This overrides all CURL_DISABLE_* options)" ON)
 mark_as_advanced(HTTP_ONLY)
 
 if(HTTP_ONLY)
@@ -387,9 +387,9 @@ endif()
 
 find_package(Perl)
 
-option(BUILD_LIBCURL_DOCS "Build libcurl man pages" ON)
-option(BUILD_MISC_DOCS "Build misc man pages (e.g. curl-config and mk-ca-bundle)" ON)
-option(ENABLE_CURL_MANUAL "Build the man page for curl and enable its -M/--manual option" ON)
+option(BUILD_LIBCURL_DOCS "Build libcurl man pages" OFF)
+option(BUILD_MISC_DOCS "Build misc man pages (e.g. curl-config and mk-ca-bundle)" OFF)
+option(ENABLE_CURL_MANUAL "Build the man page for curl and enable its -M/--manual option" OFF)
 
 if(ENABLE_CURL_MANUAL OR BUILD_LIBCURL_DOCS)
   if(PERL_FOUND)
@@ -474,7 +474,7 @@ cmake_dependent_option(CURL_USE_GNUTLS "Enable GnuTLS for SSL/TLS" OFF CURL_ENAB
 cmake_dependent_option(CURL_USE_RUSTLS "Enable Rustls for SSL/TLS" OFF CURL_ENABLE_SSL OFF)
 
 set(_openssl_default ON)
-if(WIN32 OR CURL_USE_SECTRANSP OR CURL_USE_SCHANNEL OR CURL_USE_MBEDTLS OR CURL_USE_WOLFSSL)
+if(CURL_USE_SECTRANSP OR CURL_USE_SCHANNEL OR CURL_USE_MBEDTLS OR CURL_USE_WOLFSSL)
   set(_openssl_default OFF)
 endif()
 cmake_dependent_option(CURL_USE_OPENSSL "Enable OpenSSL for SSL/TLS" ${_openssl_default} CURL_ENABLE_SSL OFF)
@@ -544,7 +544,8 @@ if(_use_core_foundation_and_core_services)
 endif()
 
 if(CURL_USE_OPENSSL)
-  find_package(OpenSSL REQUIRED)
+  # provided by pkg
+  #find_package(OpenSSL REQUIRED)
   set(_ssl_enabled ON)
   set(USE_OPENSSL ON)
 
@@ -670,8 +671,7 @@ endif()
 
 set(HAVE_LIBZ OFF)
 set(USE_ZLIB OFF)
-optional_dependency(ZLIB)
-if(ZLIB_FOUND)
+if(TARGET ZLIB::ZLIB)
   set(HAVE_LIBZ ON)
   set(USE_ZLIB ON)
 
@@ -1049,7 +1049,7 @@ if(USE_LIBIDN2 AND NOT USE_APPLE_IDN AND NOT USE_WIN32_IDN)
 endif()
 
 # libpsl
-option(CURL_USE_LIBPSL "Use libpsl" ON)
+option(CURL_USE_LIBPSL "Use libpsl" OFF)
 mark_as_advanced(CURL_USE_LIBPSL)
 set(USE_LIBPSL OFF)
 
