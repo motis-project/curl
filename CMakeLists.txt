@@ -131,7 +131,7 @@ option(ENABLE_ARES "Enable c-ares support" OFF)
 option(CURL_DISABLE_INSTALL "Disable installation targets" ON)
 
 if(WIN32)
-  option(CURL_STATIC_CRT "Build libcurl with static CRT on Windows (/MT)" OFF)
+  option(CURL_STATIC_CRT "Build libcurl with static CRT on Windows (/MT)" ON)
   if(CURL_STATIC_CRT)
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} /MT")
@@ -221,7 +221,7 @@ endif()
 
 # Override to force-disable or force-enable the use of pkg-config.
 if(UNIX OR (MSVC AND VCPKG_TOOLCHAIN))  # Keep in sync with CMake/curl-config.cmake.in
-  set(_curl_use_pkgconfig_default ON)
+  set(_curl_use_pkgconfig_default OFF)
 else()
   set(_curl_use_pkgconfig_default OFF)
 endif()
@@ -1029,7 +1029,7 @@ else()
 endif()
 
 # Check for libidn2
-option(USE_LIBIDN2 "Use libidn2 for IDN support" ON)
+option(USE_LIBIDN2 "Use libidn2 for IDN support" OFF)
 set(HAVE_IDN2_H OFF)
 set(HAVE_LIBIDN2 OFF)
 if(USE_LIBIDN2 AND NOT USE_APPLE_IDN AND NOT USE_WIN32_IDN)
@@ -1067,7 +1067,7 @@ if(CURL_USE_LIBPSL)
 endif()
 
 # libssh2
-option(CURL_USE_LIBSSH2 "Use libssh2" ON)  # FIXME: default is OFF in autotools
+option(CURL_USE_LIBSSH2 "Use libssh2" OFF)  # FIXME: default is OFF in autotools
 mark_as_advanced(CURL_USE_LIBSSH2)
 set(USE_LIBSSH2 OFF)
 
