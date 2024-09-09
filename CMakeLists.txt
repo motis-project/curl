@@ -821,7 +821,7 @@ if(USE_ECH)
   endif()
 endif()
 
-option(USE_NGHTTP2 "Use nghttp2 library" ON)
+option(USE_NGHTTP2 "Use nghttp2 library" OFF)
 if(USE_NGHTTP2)
   find_package(NGHTTP2)
   if(NGHTTP2_FOUND)
