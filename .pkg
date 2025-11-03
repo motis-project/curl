@@ -5,4 +5,4 @@
 [libressl]
   url=git@github.com:motis-project/libressl.git
   branch=master
-  commit=24acd9e710fbe842e863572da9d738715fbc74b8
+  commit=660f532fa29e1e934e530f22faa79cf7ea345a40
